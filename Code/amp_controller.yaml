@@ -1,0 +1,42 @@
+esphome:
+  name: amp_controller
+  platform: ESP8266
+  board: nodemcuv2
+  includes:
+    - amp_controller/src/mca66.h
+
+wifi:
+  ssid: "xxxx"
+  password: "xxxx"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Amp Controller Fallback Hotspot"
+    password: "xxxx"
+
+captive_portal:
+
+# Disable logging
+logger:
+  baud_rate: 0
+
+# Enable Home Assistant API
+api:
+  password: "xxxx"
+
+ota:
+  password: "xxxx"
+
+
+uart:
+  id: uart_bus
+  baud_rate: 38400
+  tx_pin: GPIO1
+  rx_pin: GPIO3
+  stop_bits: 1
+  
+  
+custom_component:
+- lambda: |-
+    auto amp = new MCA66(id(uart_bus));
+    return {amp};
